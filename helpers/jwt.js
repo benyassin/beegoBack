@@ -14,11 +14,12 @@ const validate = (req,res,next) => {
                 next();
             }
             else
-                res.status(331).send(err);
+                res.status(403).send({error:'Unauthorized',message:'Invalid bearer token'});
         });
 
-    }else
-        res.status(331).send({error:'missing jwt'});
+    } else {
+        res.status(403).send({error:'Unauthorized',message:'Bearer token is required'});
+    }
 };
 
 export default validate

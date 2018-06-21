@@ -2,11 +2,13 @@ import bcrypt from 'bcrypt';
 import uuidv1 from 'uuid/v1';
 import { sequelize, Sequelize } from '../../config/sequelize';
 import Campaign from "./Campaign";
+import Form from './Form'
+import shortid from 'shortid'
 
-const User = sequelize.define('User', {
+const User = sequelize.define('user', {
   id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
+    type: Sequelize.STRING,
+    defaultValue:shortid.generate(),
     primaryKey: true,
   },
   username: {
@@ -50,7 +52,7 @@ const User = sequelize.define('User', {
     },
     defaultValue: uuidv1(),
   },
-}, { underscored: true });
+});
 
 User.beforeCreate((user) => {
     user.password = bcrypt.hashSync(user.password, 10);
@@ -58,8 +60,10 @@ User.beforeCreate((user) => {
 });
 
 User.beforeUpdate((user) => {
-    user.password = bcrypt.hashSync(user.password,10);
-    user.refresh_token = uuidv1();
+    if(user.changed('password')){
+        user.password = bcrypt.hashSync(user.password,10);
+        // user.refresh_token = uuidv1();
+    }
 });
 
 User.prototype.comparePassword = function (somePassword) {
@@ -69,7 +73,9 @@ User.prototype.comparePassword = function (somePassword) {
 // User.associate = models => {
 //     models.User.hasMany(models.Campaign, {as: 'Campaigns', foreignKey: 'userId'});
 // };
-User.hasMany(Campaign, {as: 'Campaigns',foreignKey:'userId'});
+User.hasMany(Campaign, {as: 'campaigns',foreignKey:'userId'});
+User.hasMany(Form, {as: 'forms',foreignKey:'userId'});
+
 
 
 export default User

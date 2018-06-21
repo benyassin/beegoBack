@@ -11,5 +11,6 @@ const sequelize = new Sequelize(config.postgres.database, config.postgres.userna
 });
 
 sequelize.authenticate();
+sequelize.sync();
 
 export { sequelize, Sequelize };

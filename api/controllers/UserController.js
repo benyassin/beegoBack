@@ -1,12 +1,11 @@
 import User from '../models/User'
-import Campaign from "../models/Campaign";
 
 const load = (req, res, next, id) => {
   User.findById(id, { attributes: { exclude: ['password', 'refresh_token'] } }).then((user) => {
     if (!user) {
       res.status(404).json({ error: 'User not found' });
     } else {
-      req.dbUser = user;
+      req.user = user;
       next();
     }
   }).catch((e) => {
@@ -15,14 +14,14 @@ const load = (req, res, next, id) => {
 };
 
 const get = (req, res) => {
-  return res.status(200).json(req.dbUser);
+  return res.status(200).json(req.user);
 };
 
 const create = (req, res) => {
   User.create({
     username: req.body.username,
     password: req.body.password,
-  }, { attributes: { exclude: ['refresh_token'] } }).then((newUser) => {
+  }, { attributes: { exclude: ['refresh_token','password'] } }).then((newUser) => {
     res.status(201).json(newUser);
   }).catch((e) => {
     res.status(500).json({ error: e.message });
@@ -30,7 +29,7 @@ const create = (req, res) => {
 };
 
 const update = (req, res) => {
-  req.dbUser.update(req.body).then(() => {
+  User.update(req.body,{where:{id:req.params.userId}}).then(() => {
     res.sendStatus(201);
   }).catch((e) => {
     res.status(500).json({ error: e.message });
@@ -43,10 +42,6 @@ const list = (req, res) => {
     offset: offset,
     limit: limit,
     attributes: { exclude: ['password', 'refresh_token'] },
-    include: [{
-        model: Campaign,
-        as: 'Campaigns'
-    }]
   }).then((users) => {
     res.status(200).json(users);
   }).catch((e) => {
@@ -55,7 +50,7 @@ const list = (req, res) => {
 };
 
 const remove = async (req, res) => {
-  await req.dbUser.destroy();
+  await req.user.destroy();
   res.sendStatus(204);
 };
 

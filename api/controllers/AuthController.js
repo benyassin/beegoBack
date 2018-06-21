@@ -9,9 +9,8 @@ const authenticate = (req, res, next) => {
       username: req.body.username,
     },
   }).then((user) => {
-      console.log(user)
     if (user && user.comparePassword(req.body.password)) {
-      req.dbUser = user;
+      req.user = user;
       next();
     } else {
       res.status(401).json({ error: 'Wrong username or password' });
@@ -22,13 +21,13 @@ const authenticate = (req, res, next) => {
 };
 
 const generateJWT = async (req, res, next) => {
-  if (req.dbUser) {
-    const jwtPayload = { id: req.dbUser.id,username:req.dbUser.username};
+  if (req.user) {
+    const jwtPayload = { id: req.user.id,username:req.user.username};
     const jwtSecret = config.jwt.jwtSecret;
     const jwtData = { expiresIn: config.jwt.jwtDuration};
     req.token = jwt.sign(jwtPayload, jwtSecret, jwtData);
-    // Sets a new refresh_token every time the jwt is generated
-    await req.dbUser.update({ refresh_token: uuidv1() }).catch((e) => {
+
+    await req.user.update({ refresh_token: uuidv1() }).catch((e) => {
       res.status(500).json({ error: e.message });
     });
   }
@@ -42,7 +41,8 @@ const refreshJWT = (req, res, next) => {
       refresh_token: req.body.refresh_token,
     },
   }).then((user) => {
-    req.dbUser = user;
+    if(user.disabled) return res.status(500).json({ error: 'Account disabled'});
+    req.user = user;
     next();
   }).catch(() => {
     res.status(401).json({ error: 'Invalid username or refresh_token' });
@@ -50,8 +50,8 @@ const refreshJWT = (req, res, next) => {
 };
 
 const returnJWT = (req, res) => {
-  if (req.dbUser && req.token) {
-    res.status(201).json({ token: req.token, refresh_token: req.dbUser.refresh_token });
+  if (req.user && req.token) {
+    res.status(201).json({ token: req.token, refresh_token: req.user.refresh_token });
   } else {
     res.status(401).json({ error: 'Unauthorized' });
   }

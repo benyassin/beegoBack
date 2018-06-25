@@ -15,7 +15,8 @@ const update = (req,res) => {
     let data = {...req.body};
     Campaign.update(data, {
         where: {
-            id: req.params.id_campaign
+            id: req.params.id_campaign,
+            userId:req.user.id
         }
     }).then((campaign) => {
         if(campaign[0] === 0) {

@@ -1,6 +1,8 @@
 import { sequelize, Sequelize } from '../../config/sequelize';
 import User from "./User";
 import shortid from 'shortid'
+import Zone from "./Zone";
+import Area from "./Area";
 
 
 const Campaign = sequelize.define('campaign', {
@@ -42,6 +44,18 @@ Campaign.associate = models => {
         onDelete: "CASCADE",
     });
 };
+
+Campaign.hasMany(Zone,{
+    as:'zones',
+    foreignKey:'campaignId',
+    onDelete: "CASCADE",
+});
+
+Campaign.hasMany(Area,{
+    as:'areas',
+    foreignKey: 'campaignId',
+    onDelete: "CASCADE"
+});
 
 //
 // Campaign.belongsTo(User,{

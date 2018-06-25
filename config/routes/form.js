@@ -9,7 +9,7 @@ router.route('/')
 
 router.route('/:id_form')
     .get(validate,Formctrl.get)
-    // .put(validate)
+    .put(validate,Formctrl.update)
     .delete(validate,Formctrl.remove);
 
 router.route('/:id_form/duplicate')

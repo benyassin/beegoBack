@@ -3,6 +3,7 @@ import uuidv1 from 'uuid/v1';
 import { sequelize, Sequelize } from '../../config/sequelize';
 import Campaign from "./Campaign";
 import Form from './Form'
+import Area from './Area'
 import shortid from 'shortid'
 
 const User = sequelize.define('user', {
@@ -75,7 +76,7 @@ User.prototype.comparePassword = function (somePassword) {
 // };
 User.hasMany(Campaign, {as: 'campaigns',foreignKey:'userId'});
 User.hasMany(Form, {as: 'forms',foreignKey:'userId'});
-
+User.hasMany(Area, {as: 'areas',foreignKey:'userId'});
 
 
 export default User

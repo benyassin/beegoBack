@@ -1,7 +1,5 @@
 import Form from '../models/Form'
 
-
-
 const create = (req,res) => {
     let data = {...req.body,
         userId:req.user.id,};
@@ -45,8 +43,23 @@ const get = (req,res) => {
     })
 };
 
+const update = (req,res) => {
+    let data = {...req.body};
+    Form.update(data,{
+        where:{
+            id: req.params.id_form,
+            userId: req.user.id
+        }
+    }).then((form) => {
+        if(form[0] === 0) {
+            return res.status(405).json({error:"You don't own or this form doesnt's exist"})
+        }
+    }).catch((e) => {
+        res.status(500).json({error:e.message})
+    })
+};
 const remove = async (req,res) => {
-    await Form.destroy({},{where:{
+    await Form.destroy({where:{
         id:req.params.id_form,
         userId: req.user.id
         }});
@@ -78,4 +91,4 @@ const duplicate = (req,res) => {
         res.status(500).json({error:e.message})
     })
 };
-export default {create, list, get, remove, duplicate}
+export default {create, list, get, remove, update, duplicate}

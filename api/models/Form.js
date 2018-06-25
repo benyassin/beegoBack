@@ -11,6 +11,9 @@ const Form = sequelize.define('form',{
     name: {
         type: Sequelize.STRING,
     },
+    color: {
+      type: Sequelize.STRING
+    },
     geometry : {
         type: Sequelize.STRING
     }

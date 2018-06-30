@@ -8,8 +8,9 @@ router.route('/')
     .get(validate, Zonectrl.list)
     .post(validate, Zonectrl.create);
 
-route.route('/:id_zone')
+router.route('/:id_zone')
     .get(validate, Zonectrl.get)
     .put(validate, Zonectrl.update)
     .delete(validate, Zonectrl.remove);
 
+export default router

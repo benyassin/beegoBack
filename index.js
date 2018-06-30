@@ -1,6 +1,4 @@
 import app from './config/express'
-import User from './api/models/User'
-import Campaign from "./api/models/Campaign";
 
 // { force: true } will drop the table if it already exists
 

@@ -3,7 +3,7 @@ import shortid from 'shortid';
 
 
 
-const Assignement = sequelize.define('assignment',{
+const Assignment = sequelize.define('assignment',{
     id: {
         type: Sequelize.STRING,
         defaultValue: shortid.generate(),
@@ -21,4 +21,4 @@ const Assignement = sequelize.define('assignment',{
 });
 
 
-export default Assignement
+export default Assignment

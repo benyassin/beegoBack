@@ -1,27 +1,60 @@
-import Assignement from '../models/Assignement'
+import Assignment from '../models/Assignment'
 
 
-const list = (req ,res) => {
-    Assignement.findAll({
+const listByCampaign = (req, res) => {
+    Assignment.findAll({
+        where: {
+            id_campaign:req.params.id_campaign
+        }
+    }).then((Assignments) => {
+        res.status(200).json(Assignments)
+    }).catch((e) => {
+        res.status(500).json({error:e.message})
+    })
+};
+
+const listByUser = (req, res) => {
+    Assignment.findAll({
         where: {
             id_user : req.user.id
         }
-    }).then((assignements) => {
-        res.status(200).json(assignements)
+    }).then((Assignments) => {
+        res.status(200).json(Assignments)
     }).catch((e) => {
         res.status(500).json({error:e.message})
     })
 };
 
 const store = (req, res) => {
-    const areas = {...req.body.areas};
-    const user = req.body.user
-    areas.map(area => {
+    const area = req.body.area;
+    const users = req.body.users;
+    users.map(user => {
         return {id_area: area,id_campaign:req.params.id_campaign,id_user:user}
-    })
-    Assignement.bulkCreate(areas).then(() =>{
+    });
+    Assignment.bulkCreate(areas).then(() =>{
         res.sendStatus(201)
     }).catch((e) => {
         res.status(500).json({message:e.message})
     })
 };
+
+const remove = (req, res) => {
+    const users = req.body.users;
+    const area = req.body.area;
+    Assignment.detroy({
+        where: {
+            id_user: users,
+            id_area: area,
+            id_campaign: req.params.id_campaign
+        }
+    }).then((total) =>{
+        if(total[0] ===0 ){
+            return res.status(500).json({error:'Error deleting Assignments'})
+        }
+        res.status(200).json({totaldeleted:total})
+    }).catch((e) =>{
+        res.status(500).json({error:e.message})
+    })
+};
+
+export default { listByUser, listByCampaign, store, remove}

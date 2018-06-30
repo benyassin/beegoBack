@@ -1,9 +1,8 @@
 {
-  "name": "node-es6-jwt",
+  "name": "Collector",
   "version": "1.0.0",
   "description": "Node ES6 JWT",
-  "author": "Mauricio Urraco mauriurraco@gmail.com",
-  "homepage": "https://github.com/murraco/",
+  "author": "Marouane El Kassemi elkassemi@outlook.com",
   "license": "MIT",
   "main": "index.js",
   "scripts": {

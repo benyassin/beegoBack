@@ -14,7 +14,7 @@ const list = (req,res) => {
 };
 
 const create = (req,res) => {
-    data = {...req.body,userId: req.user.id};
+    let data = {...req.body,userId: req.user.id};
     Area.create(data).then((Area) => {
         res.status(201).json(Area)
     }).catch((e) => {

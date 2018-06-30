@@ -8,8 +8,9 @@ router.route('/')
     .get(validate, Areactrl.list)
     .post(validate, Areactrl.create);
 
-route.route('/:id_area')
+router.route('/:id_area')
     .get(validate, Areactrl.get)
     .put(validate, Areactrl.update)
     .delete(validate, Areactrl.remove);
 
+export default router

@@ -1,35 +1,35 @@
-import subZone from '../models/Zone'
+import Zone from '../models/Zone'
 
 
 const list = (req,res) => {
     const { offset = 0, limit = 50} = req.query;
-    subZone.findAll({
+    Zone.findAll({
             offset: offset,
             limit: limit},
-        {where:{userId: req.user.id}}).then((subZones) => {
-        res.status(200).json(subZones);
+        {where:{userId: req.user.id}}).then((zones) => {
+        res.status(200).json(zones);
     }).catch((e) => {
         res.status(500).json({error: e.message});
     })
 };
 
 const create = (req,res) => {
-    data = {...req.body,userId: req.user.id};
-    subZone.create(data).then((subZone) => {
-        res.status(201).json(subZone)
+    const data = {...req.body,userId: req.user.id};
+    Zone.create(data).then((zone) => {
+        res.status(201).json(zone)
     }).catch((e) => {
         res.status(500).json({error:e.message})
     })
 };
 
 const get = (req,res) => {
-    subZoneId = req.params.id_subZone;
+    zoneId = req.params.id_subZone;
 
-    subZone.findOne({where:{
+    zoneId.findOne({where:{
             userId: req.user.id,
             id: subZoneId
-        }}).then((subZone) => {
-        res.status(200).json(subZone)
+        }}).then((zone) => {
+        res.status(200).json(zone)
     }).catch((e) => {
         res.status(500).json({error:e.message})
     })
@@ -37,14 +37,14 @@ const get = (req,res) => {
 
 const update = (req,res) => {
     const data = {...req.body};
-    subZone.update(data,{
+    Zone.update(data,{
         where: {
-            id:req.params.id_subZone,
+            id:req.params.id_zone,
             userId:req.user.id
         }
-    }).then((subZone) => {
-        if(subZone[0] === 0) {
-            return res.status(405).json({error:"You don't own or this subZone doesnt's exist"})
+    }).then((zone) => {
+        if(zone[0] === 0) {
+            return res.status(405).json({error:"You don't own or this zone doesnt's exist"})
         }
         res.sendStatus(201)
     }).catch((e) => {

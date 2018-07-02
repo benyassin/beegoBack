@@ -1,7 +1,7 @@
 import Zone from '../models/Zone'
 
 
-const list = (req,res) => {
+const list = (req, res) => {
     const { offset = 0, limit = 50} = req.query;
     Zone.findAll({
             offset: offset,
@@ -13,7 +13,7 @@ const list = (req,res) => {
     })
 };
 
-const create = (req,res) => {
+const create = (req, res) => {
     const data = {...req.body,userId: req.user.id};
     Zone.create(data).then((zone) => {
         res.status(201).json(zone)
@@ -22,12 +22,12 @@ const create = (req,res) => {
     })
 };
 
-const get = (req,res) => {
+const get = (req, res) => {
     zoneId = req.params.id_subZone;
 
     zoneId.findOne({where:{
             userId: req.user.id,
-            id: subZoneId
+            id: zoneId
         }}).then((zone) => {
         res.status(200).json(zone)
     }).catch((e) => {
@@ -35,7 +35,7 @@ const get = (req,res) => {
     })
 };
 
-const update = (req,res) => {
+const update = (req, res) => {
     const data = {...req.body};
     Zone.update(data,{
         where: {
@@ -52,12 +52,18 @@ const update = (req,res) => {
     })
 };
 
-const remove = async (req,res) => {
-    await subZone.destroy({where: {
-            id:req.params.id_subZone,
+const remove = async (req, res) => {
+    await Zone.destroy({where: {
+            id:req.params.id_zone,
             userId: req.user.id
         }});
     res.sendStatus(204)
+};
+
+const duplicate = async (req, res) => {
+    const zoneId = req.params.id_zone
+
+
 };
 
 

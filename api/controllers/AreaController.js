@@ -1,7 +1,7 @@
 import Area from '../models/Area'
 
 
-const list = (req,res) => {
+const list = (req, res) => {
     const { offset = 0, limit = 50} = req.query;
     Area.findAll({
             offset: offset,
@@ -13,8 +13,11 @@ const list = (req,res) => {
     })
 };
 
-const create = (req,res) => {
-    let data = {...req.body,userId: req.user.id};
+const create = (req, res) => {
+    let data = {
+        ...req.body,
+        userId: req.user.id
+    };
     Area.create(data).then((Area) => {
         res.status(201).json(Area)
     }).catch((e) => {
@@ -22,7 +25,7 @@ const create = (req,res) => {
     })
 };
 
-const get = (req,res) => {
+const get = (req, res) => {
     AreaId = req.params.id_Area;
 
     Area.findOne({where:{
@@ -35,7 +38,7 @@ const get = (req,res) => {
     })
 };
 
-const update = (req,res) => {
+const update = (req, res) => {
     const data = {...req.body};
     Area.update(data,{
         where: {
@@ -52,7 +55,7 @@ const update = (req,res) => {
     })
 };
 
-const remove = async (req,res) => {
+const remove = async (req, res) => {
     await Area.destroy({where: {
         id:req.params.id_Area,
         userId: req.user.id
@@ -64,4 +67,10 @@ const duplicate = (req, res) => {
 
 };
 
-export default {list, create, get, update, remove}
+export default {
+    list,
+    create,
+    get,
+    update,
+    remove
+}

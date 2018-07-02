@@ -67,7 +67,7 @@ const remove = async (req,res) => {
 };
 
 const duplicate = (req,res) => {
-    let formId = req.params.id_form;
+    const formId = req.params.id_form;
     Form.findOne({
         where: {
             id:formId,

@@ -4,7 +4,8 @@ import config from '../config/env/index'
 
 const secret = config.jwt.jwtSecret;
 
-const validate = (req,res,next) => {
+const validate = (req,res,next,test=null) => {
+    console.log('this is a test ',test);
     let bearer = req.headers['authorization'];
     if(typeof bearer !== 'undefined'){
         let token = bearer.split(' ');

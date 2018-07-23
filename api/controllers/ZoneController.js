@@ -60,11 +60,59 @@ const remove = async (req, res) => {
     res.sendStatus(204)
 };
 
-const duplicate = async (req, res) => {
-    const zoneId = req.params.id_zone
+const duplicate = (req, res) => {
+    const {id_zones : [],id_campaign} = req.body;
 
+    Zone.find({
+        where: {
+        id:id_zones,
+        userId: req.user.id
+        },
+        attributes:{
+            exclude: ['id','campaignId']
+        }
+    }).then((zones) => {
+        if(zones.length === 0) return res.status(404).json({error:'Zones not found'});
+
+        let newZones = zones.map(zone => {
+            return {...zone,campaignId:id_campaign}
+        });
+        Zone.bulkCreate(newZones).then(() =>{
+            res.sendStatus(201)
+        }).catch((e) => {
+            res.status(500).json({message:e.message})
+        })
+    }).catch((e) => {
+        res.status(500).json({error:e.message})
+    })
 
 };
 
+const assign = (req, res) => {
+    const {id_zones : [], id_area} = req.body;
 
-export default {list, create, get, update, remove}
+    Zone.update({areaId:id_area},{
+        where:{
+            id : id_zones,
+            userId: req.user.id
+        }
+    }).then((zones) =>{
+        if(zones[0] === 0){
+            return res.status(405).json({error:"You don't own or this form doesn't exist"})
+        }
+        res.sendStatus(201)
+    }).catch((e) =>{
+        res.status(500).json({error:e.message})
+    })
+};
+
+
+
+export default {
+    list,
+    create,
+    get,
+    update,
+    remove,
+    duplicate,
+}

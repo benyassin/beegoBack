@@ -57,4 +57,5 @@ const returnJWT = (req, res) => {
   }
 };
 
+
 export default {authenticate, generateJWT, refreshJWT, returnJWT};

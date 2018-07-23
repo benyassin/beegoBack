@@ -16,6 +16,10 @@ const Form = sequelize.define('form',{
     },
     geometry : {
         type: Sequelize.STRING
+    },
+    isActive : {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     }
 });
 Form.associate = models => {

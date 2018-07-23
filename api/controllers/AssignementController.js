@@ -28,10 +28,14 @@ const listByUser = (req, res) => {
 const store = (req, res) => {
     const area = req.body.area;
     const users = req.body.users;
-    users.map(user => {
-        return {id_area: area,id_campaign:req.params.id_campaign,id_user:user}
+    let assignments = users.map(user => {
+        return {
+            id_area: area,
+            id_campaign:req.params.id_campaign,
+            id_user:user
+        }
     });
-    Assignment.bulkCreate(areas).then(() =>{
+    Assignment.bulkCreate(assignments).then(() =>{
         res.sendStatus(201)
     }).catch((e) => {
         res.status(500).json({message:e.message})
@@ -51,7 +55,7 @@ const remove = (req, res) => {
         if(total[0] ===0 ){
             return res.status(500).json({error:'Error deleting Assignments'})
         }
-        res.status(200).json({totaldeleted:total})
+        res.status(200).json({deleted:total})
     }).catch((e) =>{
         res.status(500).json({error:e.message})
     })

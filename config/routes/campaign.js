@@ -1,15 +1,15 @@
 import express from 'express'
 import CampaignCtrl from '../../api/controllers/CampaignController'
-import validate from '../../helpers/jwt'
+import Auth from '../../helpers/jwt'
 const router = express.Router();
 
 
 router.route('/')
-    .get(validate,CampaignCtrl.list)
-    .post(validate,CampaignCtrl.create);
+    .get(Auth,CampaignCtrl.list)
+    .post(Auth,CampaignCtrl.create);
 router.route('/:id_campaign')
-    .get(validate,CampaignCtrl.get)
-    .put(validate,CampaignCtrl.update)
-    .delete(validate,CampaignCtrl.remove);
+    .get(Auth,CampaignCtrl.get)
+    .put(Auth,CampaignCtrl.update)
+    .delete(Auth,CampaignCtrl.remove);
 
 export default router

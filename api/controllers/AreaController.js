@@ -2,7 +2,7 @@ import Area from '../models/Area'
 
 
 const list = (req, res) => {
-    const { offset = 0, limit = 50} = req.query;
+    const { offset = 0, limit = 50 } = req.query;
     Area.findAll({
             offset: offset,
             limit: limit},
@@ -63,9 +63,7 @@ const remove = async (req, res) => {
     res.sendStatus(204)
 };
 
-const duplicate = (req, res) => {
 
-};
 
 export default {
     list,

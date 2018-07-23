@@ -1,18 +1,18 @@
 import express from 'express'
 import Formctrl from '../../api/controllers/FormController'
-import validate from '../../helpers/jwt'
+import auth from '../../helpers/jwt'
 const router = express.Router();
 
 router.route('/')
-    .get(validate,Formctrl.list)
-    .post(validate,Formctrl.create);
+    .get(auth,Formctrl.list)
+    .post(auth,Formctrl.create);
 
 router.route('/:id_form')
-    .get(validate,Formctrl.get)
-    .put(validate,Formctrl.update)
-    .delete(validate,Formctrl.remove);
+    .get(auth,Formctrl.get)
+    .put(auth,Formctrl.update)
+    .delete(auth,Formctrl.remove);
 
 router.route('/:id_form/duplicate')
-    .get(validate,Formctrl.duplicate);
+    .post(auth,Formctrl.duplicate);
 
 export default router

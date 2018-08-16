@@ -2,6 +2,7 @@ import Assignment from '../models/Assignment'
 
 
 const listByCampaign = (req, res) => {
+
     Assignment.findAll({
         where: {
             id_campaign:req.params.id_campaign
@@ -11,9 +12,11 @@ const listByCampaign = (req, res) => {
     }).catch((e) => {
         res.status(500).json({error:e.message})
     })
+
 };
 
 const listByUser = (req, res) => {
+
     Assignment.findAll({
         where: {
             id_user : req.user.id
@@ -23,9 +26,11 @@ const listByUser = (req, res) => {
     }).catch((e) => {
         res.status(500).json({error:e.message})
     })
+
 };
 
 const store = (req, res) => {
+
     const area = req.body.area;
     const users = req.body.users;
     let assignments = users.map(user => {
@@ -40,17 +45,21 @@ const store = (req, res) => {
     }).catch((e) => {
         res.status(500).json({message:e.message})
     })
+
 };
 
 const remove = (req, res) => {
+
     const users = req.body.users;
     const area = req.body.area;
+
     Assignment.detroy({
         where: {
             id_user: users,
             id_area: area,
             id_campaign: req.params.id_campaign
         }
+
     }).then((total) =>{
         if(total[0] ===0 ){
             return res.status(500).json({error:'Error deleting Assignments'})
@@ -59,6 +68,12 @@ const remove = (req, res) => {
     }).catch((e) =>{
         res.status(500).json({error:e.message})
     })
+
 };
 
-export default { listByUser, listByCampaign, store, remove}
+export default {
+    listByUser,
+    listByCampaign,
+    store,
+    remove
+}

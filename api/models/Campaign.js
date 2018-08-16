@@ -1,14 +1,15 @@
 import { sequelize, Sequelize } from '../../config/sequelize';
-import User from "./User";
-import shortid from 'shortid'
+
 import Zone from "./Zone";
 import Area from "./Area";
+import Form from "./Form";
+import Organization from "./Organization"
 
 
 const Campaign = sequelize.define('campaign', {
     id: {
-        type: Sequelize.STRING,
-        defaultValue:shortid.generate(),
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
     },
     name: {
@@ -35,6 +36,13 @@ const Campaign = sequelize.define('campaign', {
     },
     is_active: {
         type: Sequelize.BOOLEAN
+    },
+    organizationId: {
+        type: Sequelize.INTEGER,
+        references: {
+            model: Organization,
+            key: 'id'
+        },
     }
 });
 
@@ -57,6 +65,12 @@ Campaign.hasMany(Area,{
     onDelete: "CASCADE"
 });
 
+
+Campaign.hasMany(Form,{
+    as:'forms',
+    foreignKey: 'campaignId',
+    onDelete: "CASCADE"
+});
 //
 // Campaign.belongsTo(User,{
 //     foreignKey: 'userId',

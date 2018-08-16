@@ -1,12 +1,11 @@
 import {Sequilize, sequelize, Sequelize} from "../../config/sequelize";
 
-import shortid from 'shortid'
 
 
 const Zone = sequelize.define('zone',{
     id: {
-        type: Sequelize.STRING(14),
-        defaultValue: shortid.generate(),
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
     name: {
@@ -14,6 +13,10 @@ const Zone = sequelize.define('zone',{
     },
     geometry : {
         type: Sequelize.GEOMETRY
+    },
+    isActive: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     }
 });
 

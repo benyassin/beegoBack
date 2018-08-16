@@ -1,6 +1,7 @@
 import Form from '../models/Form'
 
 const create = (req,res) => {
+
     let data = {
         ...req.body,
         userId:req.user.id
@@ -10,9 +11,11 @@ const create = (req,res) => {
     }).catch((e) => {
         res.status(500).json({error:e.message})
     })
+
 };
 
 const list = (req,res) => {
+
     const { offset = 0, limit = 50 } = req.query;
     Form.findAll({
         offset: offset,
@@ -27,9 +30,11 @@ const list = (req,res) => {
     }).catch((e) => {
         res.status(500).json({error: e.message})
     })
+
 };
 
 const get = (req,res) => {
+
     let formId = req.params.id_form;
 
     Form.findOne({
@@ -47,7 +52,7 @@ const get = (req,res) => {
 
 };
 
-const update = (req,res) => {
+const update = (req, res) => {
 
     let data = {...req.body};
     Form.update(data,{
@@ -65,7 +70,7 @@ const update = (req,res) => {
     })
 
 };
-const remove = async (req,res) => {
+const remove = async (req, res) => {
 
     await Form.destroy({where:{
         id:req.params.id_form,
@@ -75,7 +80,8 @@ const remove = async (req,res) => {
 
 };
 
-const duplicate = (req,res) => {
+const duplicate = (req, res) => {
+
     const formId = req.params.id_form;
     const campaignId = req.body.id_campaign;
     Form.findOne({
@@ -96,8 +102,11 @@ const duplicate = (req,res) => {
                 res.status(500).json(e)
             })
     }).catch((e) => {
+
         res.status(500).json({error:e.message})
+
     })
+
 };
 
 // const assign = (req, res) => {
@@ -118,7 +127,8 @@ const duplicate = (req,res) => {
 //     })
 // };
 
-const toggle = (req,res) => {
+const toggle = (req, res) => {
+
   const forms = req.body.forms;
 
       Form.update({isActive:req.body.activate},{
@@ -134,10 +144,12 @@ const toggle = (req,res) => {
       }).catch((e) => {
             res.status(500).json({error:e.message})
       })
+
 };
 
 
 export default {
+
     create,
     list,
     get,

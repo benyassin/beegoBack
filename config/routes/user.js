@@ -9,8 +9,8 @@ import validate from './validation/validation'
 const router = express.Router();
 
 router.route('/')
-  .get(Auth,validate, userCtrl.list)
-  .post(userCtrl.create);
+  .get(Auth, userCtrl.list)
+  .post(Auth, userCtrl.create);
 
 router.route('/:userId')
   .get(Auth, userCtrl.get)

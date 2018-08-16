@@ -4,13 +4,13 @@ import { sequelize, Sequelize } from '../../config/sequelize';
 import Campaign from "./Campaign";
 import Form from './Form'
 import Area from './Area'
-import shortid from 'shortid'
+import Organization from './Organization'
 
 const User = sequelize.define('user', {
   id: {
-    type: Sequelize.STRING,
-    defaultValue:shortid.generate(),
-    primaryKey: true,
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
   },
   username: {
     type: Sequelize.STRING,
@@ -37,12 +37,25 @@ const User = sequelize.define('user', {
       msg : 'Email already exists'
     }
   },
+  role: {
+    type: Sequelize.STRING
+  },
   phone: {
+    type: Sequelize.STRING
+  },
+  created_by : {
     type: Sequelize.STRING
   },
   is_active : {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  organizationId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: Organization,
+      key: 'id'
+    },
   },
   refresh_token: {
     type: Sequelize.UUID,
@@ -53,6 +66,12 @@ const User = sequelize.define('user', {
     },
     defaultValue: uuidv1(),
   },
+},{
+  scopes: {
+      withoutPassword: {
+          attributes: { exclude: ['password'] },
+      }
+  }
 });
 
 User.beforeCreate((user) => {

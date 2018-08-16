@@ -1,12 +1,12 @@
 import { sequelize, Sequelize } from '../../config/sequelize';
-import shortid from 'shortid';
 
 
 
 const Assignment = sequelize.define('assignment',{
+
     id: {
-        type: Sequelize.STRING,
-        defaultValue: shortid.generate(),
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
     },
     id_user: {
@@ -15,9 +15,11 @@ const Assignment = sequelize.define('assignment',{
     id_campaign: {
         type:Sequelize.STRING
     },
+
     id_area: {
         type:Sequelize.STRING
     }
+
 });
 
 

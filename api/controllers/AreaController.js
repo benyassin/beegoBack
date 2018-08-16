@@ -6,7 +6,9 @@ const list = (req, res) => {
     Area.findAll({
             offset: offset,
             limit: limit},
-        {where:{userId: req.user.id}}).then((Areas) => {
+        {
+            where:{userId: req.user.id}
+        }).then((Areas) => {
         res.status(200).json(Areas);
     }).catch((e) => {
         res.status(500).json({error: e.message});
@@ -14,6 +16,7 @@ const list = (req, res) => {
 };
 
 const create = (req, res) => {
+
     let data = {
         ...req.body,
         userId: req.user.id
@@ -23,9 +26,11 @@ const create = (req, res) => {
     }).catch((e) => {
         res.status(500).json({error:e.message})
     })
+
 };
 
 const get = (req, res) => {
+
     AreaId = req.params.id_Area;
 
     Area.findOne({where:{
@@ -36,9 +41,11 @@ const get = (req, res) => {
     }).catch((e) => {
         res.status(500).json({error:e.message})
     })
+
 };
 
 const update = (req, res) => {
+
     const data = {...req.body};
     Area.update(data,{
         where: {
@@ -53,16 +60,18 @@ const update = (req, res) => {
     }).catch((e) => {
         res.status(500).json({error: e.message})
     })
+
 };
 
 const remove = async (req, res) => {
+
     await Area.destroy({where: {
         id:req.params.id_Area,
         userId: req.user.id
         }});
     res.sendStatus(204)
-};
 
+};
 
 
 export default {

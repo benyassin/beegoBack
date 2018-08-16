@@ -2,24 +2,34 @@ import Zone from '../models/Zone'
 
 
 const list = (req, res) => {
-    const { offset = 0, limit = 50} = req.query;
+
+    const {
+        offset = 0,
+        limit = 50
+    } = req.query;
     Zone.findAll({
             offset: offset,
-            limit: limit},
+            limit: limit
+        },
         {where:{userId: req.user.id}}).then((zones) => {
         res.status(200).json(zones);
     }).catch((e) => {
         res.status(500).json({error: e.message});
     })
+
 };
 
 const create = (req, res) => {
-    const data = {...req.body,userId: req.user.id};
+
+    const data = {...req.body,
+        userId: req.user.id};
+
     Zone.create(data).then((zone) => {
         res.status(201).json(zone)
     }).catch((e) => {
         res.status(500).json({error:e.message})
     })
+
 };
 
 const get = (req, res) => {
@@ -36,6 +46,7 @@ const get = (req, res) => {
 };
 
 const update = (req, res) => {
+
     const data = {...req.body};
     Zone.update(data,{
         where: {

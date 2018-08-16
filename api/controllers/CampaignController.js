@@ -2,16 +2,20 @@ import Campaign from '../models/Campaign'
 
 
 const create = (req ,res) => {
+
     let data = {...req.body};
     data.userId = req.user.id;
+    data.organizationId = req.user.organizationId
     Campaign.create(data).then((Campaign) => {
         res.status(201).json(Campaign);
     }).catch((e) => {
         res.status(500).json({ error: e.message });
     });
+
 };
 
 const update = (req,res) => {
+
     let data = {...req.body};
     Campaign.update(data, {
         where: {
@@ -24,11 +28,14 @@ const update = (req,res) => {
         }
         res.sendStatus(201)
     }).catch((e) => {
-        res.status(500).json({error: e.message})
+        res.status(500).json({
+            error: e.message
+        })
     })
 };
 
 const list = (req,res) => {
+
     const { offset = 0, limit = 50} = req.query;
     Campaign.findAll({
         offset: offset,
@@ -38,9 +45,10 @@ const list = (req,res) => {
     }).catch((e) => {
         res.status(500).json({error: e.message});
     })
+
 };
 
-const get = (req,res) => {
+const get = (req, res) => {
     let campaignId = req.params.id_campaign;
     Campaign.findOne({where:{
         id:campaignId,
@@ -55,12 +63,20 @@ const get = (req,res) => {
 };
 
 const remove = async (req,res) => {
+
     await Campaign.destroy({where:{
         id:req.params.id_campaign,
         userId: req.user.id
         }});
     res.sendStatus(204);
+
 };
 
 
-export default {create, update, list, get, remove}
+export default {
+    create,
+    update,
+    list,
+    get,
+    remove
+}

@@ -5,6 +5,7 @@ import campaignRoutes from './campaign';
 import formsRoutes from './form';
 import areaRoutes from './area';
 import zoneRoutes from './zone';
+import organizationRoutes from './organization';
 
 const router = express.Router();
 
@@ -17,5 +18,6 @@ router.use('/campaigns', campaignRoutes);
 router.use('/forms', formsRoutes);
 router.use('/areas', areaRoutes);
 router.use('/zones', zoneRoutes);
+router.use('/organization',organizationRoutes);
 
 export default router

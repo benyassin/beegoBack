@@ -4,8 +4,10 @@ import Campaign from '../models/Campaign'
 const create = (req ,res) => {
 
     let data = {...req.body};
+    
     data.userId = req.user.id;
     data.organizationId = req.user.organizationId
+
     Campaign.create(data).then((Campaign) => {
         res.status(201).json(Campaign);
     }).catch((e) => {

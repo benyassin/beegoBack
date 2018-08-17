@@ -71,9 +71,9 @@ const remove = async (req, res) => {
   res.sendStatus(204);
 };
 
-const assignToOrganization = async (user,organization) => {
+const assignToOrganization = (user,organization) => {
 
-      await User.findById(user).then((user) => {
+      User.findById(user).then((user) => {
           user.organizationId = organization;
           user.role = 'OWNER';
           user.save();

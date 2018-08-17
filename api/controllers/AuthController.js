@@ -23,7 +23,11 @@ const authenticate = (req, res, next) => {
 const generateJWT = async (req, res, next) => {
 
   if (req.user) {
-    const jwtPayload = { id: req.user.id,username:req.user.username, organization: req.user.organizationId};
+    const jwtPayload = { 
+      id: req.user.id,
+      username:req.user.username,
+      organization: req.user.organizationId
+    };
     const jwtSecret = config.jwt.jwtSecret;
     const jwtData = { expiresIn: config.jwt.jwtDuration};
     req.token = jwt.sign(jwtPayload, jwtSecret, jwtData);

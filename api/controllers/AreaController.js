@@ -5,7 +5,8 @@ const list = (req, res) => {
     const { offset = 0, limit = 50 } = req.query;
     Area.findAll({
             offset: offset,
-            limit: limit},
+            limit: limit
+        },
         {
             where:{userId: req.user.id}
         }).then((Areas) => {

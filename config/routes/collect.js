@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.route('/')
     .get(Auth, CollectCtrl.list)
+    .post(Auth, CollectCtrl.create)
 
 router.route('/:id_collect')
     .get(Auth, CollectCtrl.get)

@@ -3,7 +3,7 @@ import {sequelize, Sequelize} from "../../config/sequelize";
 
 import zone from './Zone'
 
-const Area = sequelize.define('zone',{
+const Area = sequelize.define('area',{
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -13,6 +13,7 @@ const Area = sequelize.define('zone',{
         type: Sequelize.STRING,
     }
 });
+
 Area.associate = models => {
 
     models.Area.belongsTo(models.User,{

@@ -1,6 +1,6 @@
 import { sequelize, Sequelize} from '../../config/sequelize';
 import Form from './Form';
-
+import Collect from './Collect'
 
 const Entity = sequelize.define('entity',{
     id: {

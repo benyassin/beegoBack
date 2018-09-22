@@ -1,5 +1,6 @@
 import { sequelize, Sequelize } from "../../config/sequelize";
 import Campaign from "./Campaign";
+import Form from "./Form"
 
 const Collect = sequelize.define('collect', {
     id: {

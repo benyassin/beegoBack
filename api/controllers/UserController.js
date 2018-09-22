@@ -1,13 +1,14 @@
 import User from '../models/User'
 
-const load = (req, res, next, id) => {
+const load = (req, res) => {
 
-  User.findById(id, { attributes: { exclude: ['password', 'refresh_token'] } }).then((user) => {
+  User.findById(req.user.id, { attributes: { exclude: ['password', 'refresh_token'] } }).then((user) => {
     if (!user) {
       res.status(404).json({ error: 'User not found' });
     } else {
+      console.log(user)
       req.user = user;
-      next();
+      res.status(200).json(req.user);
     }
   }).catch((e) => {
 
@@ -18,7 +19,7 @@ const load = (req, res, next, id) => {
 };
 
 const get = (req, res) => {
-
+  console.log(req.user)
   return res.status(200).json(req.user);
 
 };
@@ -29,11 +30,11 @@ const create = (req, res) => {
     username: req.body.username,
     password: req.body.password,
     role: req.body.role,
-    organizationId: req.user.organization,
-    createdBy: req.user.id
+   // organizationId: req.user.organization,
+   // createdBy: req.user.id
   }).then((newUser) => {
-      newUser.password = undefined;
-      res.status(201).json(newUser);
+    newUser.password = undefined;
+    res.status(201).json(newUser);
   }).catch((e) => {
     res.status(500).json({ error: e.message });
   });
@@ -43,7 +44,7 @@ const create = (req, res) => {
 
 const update = (req, res) => {
 
-  User.update(req.body,{where:{id:req.params.userId}}).then(() => {
+  User.update(req.body, { where: { id: req.params.userId } }).then(() => {
     res.sendStatus(201);
   }).catch((e) => {
     res.status(500).json({ error: e.message });
@@ -71,25 +72,25 @@ const remove = async (req, res) => {
   res.sendStatus(204);
 };
 
-const assignToOrganization = (user,organization) => {
+const assignToOrganization = (user, organization) => {
 
-      User.findById(user).then((user) => {
-          user.organizationId = organization;
-          user.role = 'OWNER';
-          user.save();
-          return {error:false, message:'Assigned to Organization'}
-      }).catch((e) =>{
-          return {error:true, message:e.message}
-      })
+  User.findById(user).then((user) => {
+    user.organizationId = organization;
+    user.role = 'OWNER';
+    user.save();
+    return { error: false, message: 'Assigned to Organization' }
+  }).catch((e) => {
+    return { error: true, message: e.message }
+  })
 };
 
 
 export default {
-    load,
-    get,
-    create,
-    update,
-    list,
-    remove,
-    assignToOrganization
+  load,
+  get,
+  create,
+  update,
+  list,
+  remove,
+  assignToOrganization
 };

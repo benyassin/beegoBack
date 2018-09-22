@@ -9,15 +9,14 @@ import validate from './validation/validation'
 const router = express.Router();
 
 router.route('/')
-  .get(Auth, userCtrl.list)
-  .post(Auth, userCtrl.create);
+  .get(Auth, userCtrl.load)
+  .post(userCtrl.create);
 
 router.route('/:userId')
-  .get(Auth, userCtrl.get)
-  .put(Auth, userCtrl.update)
-  .delete(Auth, userCtrl.remove);
+  .put(Auth,userCtrl.update)
+  .delete(Auth,userCtrl.remove);
 
-/** Load user when API with userId route parameter is hit */
-router.param('userId', userCtrl.load);
+/** Load user when API */
+//router.param('userId',Auth, userCtrl.load);
 
 export default router

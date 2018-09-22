@@ -8,6 +8,7 @@ import zoneRoutes from './zone';
 import organizationRoutes from './organization';
 import collectRoutes from './collect';
 import entityRoutes from './entity';
+import assignmentRoutes from './assignment'
 
 const router = express.Router();
 
@@ -22,6 +23,7 @@ router.use('/zones', zoneRoutes);
 router.use('/organization',organizationRoutes);
 router.use('/collect', collectRoutes);
 router.use('/entity', entityRoutes);
+router.use('/assignments',assignmentRoutes)
 
 
 export default router

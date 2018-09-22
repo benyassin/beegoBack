@@ -7,5 +7,5 @@ export const postgres = {
 };
 export const jwt = {
   jwtSecret: '$eCrEttTttttttt',
-  jwtDuration: '2 hours'
+  jwtDuration: '15 minutes'
 };

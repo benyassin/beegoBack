@@ -5,9 +5,9 @@ import EntityCtrl from '../controllers/EntityController'
 const create = (req, res) => {
 
     Collecte.create({
-        form = req.body.form,
-        campaignId = req.body.campaignId,
-        data = req.body.data
+        form : req.body.form,
+        campaignId : req.body.campaignId,
+        data : req.body.data
     }).then((collect) => {
         let entities = req.body.entities.map((entity) => {
             return { ...entity, collectId: collect.id }

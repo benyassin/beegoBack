@@ -23,13 +23,13 @@ const authenticate = (req, res, next) => {
 const generateJWT = async (req, res, next) => {
 
   if (req.user) {
-    const jwtPayload = { 
+    const jwtPayload = {
       id: req.user.id,
-      username:req.user.username,
+      username: req.user.username,
       organization: req.user.organizationId
     };
     const jwtSecret = config.jwt.jwtSecret;
-    const jwtData = { expiresIn: config.jwt.jwtDuration};
+    const jwtData = { expiresIn: config.jwt.jwtDuration };
     req.token = jwt.sign(jwtPayload, jwtSecret, jwtData);
 
     await req.user.update({ refresh_token: uuidv1() }).catch((e) => {
@@ -47,7 +47,7 @@ const refreshJWT = (req, res, next) => {
       refresh_token: req.body.refresh_token,
     },
   }).then((user) => {
-    if(user.disabled) return res.status(500).json({ error: 'Account disabled'});
+    if (user.disabled) return res.status(500).json({ error: 'Account disabled' });
     req.user = user;
     next();
   }).catch(() => {
@@ -65,8 +65,8 @@ const returnJWT = (req, res) => {
 
 
 export default {
-    authenticate,
-    generateJWT,
-    refreshJWT,
-    returnJWT
+  authenticate,
+  generateJWT,
+  refreshJWT,
+  returnJWT
 };

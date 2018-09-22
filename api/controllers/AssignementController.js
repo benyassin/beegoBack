@@ -1,16 +1,19 @@
 import Assignment from '../models/Assignment'
+import User from '../models/User';
+import Campaign from '../models/Campaign';
 
 
 const listByCampaign = (req, res) => {
 
     Assignment.findAll({
         where: {
-            id_campaign:req.params.id_campaign
+            id_campaign: req.params.id_campaign
         }
+        
     }).then((Assignments) => {
         res.status(200).json(Assignments)
     }).catch((e) => {
-        res.status(500).json({error:e.message})
+        res.status(500).json({ error: e.message })
     })
 
 };
@@ -19,12 +22,12 @@ const listByUser = (req, res) => {
 
     Assignment.findAll({
         where: {
-            id_user : req.user.id
+            id_user: req.user.id
         }
     }).then((Assignments) => {
         res.status(200).json(Assignments)
     }).catch((e) => {
-        res.status(500).json({error:e.message})
+        res.status(500).json({ error: e.message })
     })
 
 };
@@ -33,17 +36,19 @@ const store = (req, res) => {
 
     const area = req.body.area;
     const users = req.body.users;
+    console.log(users)
+    console.log(typeof users)
     let assignments = users.map(user => {
         return {
             id_area: area,
-            id_campaign:req.params.id_campaign,
-            id_user:user
+            id_campaign: req.params.id_campaign,
+            id_user: user
         }
     });
-    Assignment.bulkCreate(assignments).then(() =>{
+    Assignment.bulkCreate(assignments).then(() => {
         res.sendStatus(201)
     }).catch((e) => {
-        res.status(500).json({message:e.message})
+        res.status(500).json({ message: e.message })
     })
 
 };
@@ -60,13 +65,13 @@ const remove = (req, res) => {
             id_campaign: req.params.id_campaign
         }
 
-    }).then((total) =>{
-        if(total[0] ===0 ){
-            return res.status(500).json({error:'Error deleting Assignments'})
+    }).then((total) => {
+        if (total[0] === 0) {
+            return res.status(500).json({ error: 'Error deleting Assignments' })
         }
-        res.status(200).json({deleted:total})
-    }).catch((e) =>{
-        res.status(500).json({error:e.message})
+        res.status(200).json({ deleted: total })
+    }).catch((e) => {
+        res.status(500).json({ error: e.message })
     })
 
 };

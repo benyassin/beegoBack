@@ -10,17 +10,19 @@ const Assignment = sequelize.define('assignment',{
         primaryKey: true,
     },
     id_user: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
     },
     id_campaign: {
-        type:Sequelize.STRING
+        type:Sequelize.INTEGER
     },
 
     id_area: {
-        type:Sequelize.STRING
+        type:Sequelize.INTEGER
     }
 
 });
+
+
 
 
 export default Assignment

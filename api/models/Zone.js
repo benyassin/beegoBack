@@ -14,10 +14,6 @@ const Zone = sequelize.define('zone',{
     geometry : {
         type: Sequelize.GEOMETRY
     },
-    isActive: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-    }
 });
 
 Zone.associate = models => {

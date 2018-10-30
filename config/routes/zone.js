@@ -1,6 +1,6 @@
-import express from 'express'
-import Zonectrl from '../../api/controllers/ZoneController'
-import validate from '../../helpers/jwt'
+import express from 'express';
+import Zonectrl from '../../api/controllers/ZoneController';
+import validate from '../../helpers/jwt';
 const router = express.Router();
 
 

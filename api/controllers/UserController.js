@@ -1,4 +1,4 @@
-import User from '../models/User'
+import User from '../models/User';
 
 const load = (req, res) => {
 
@@ -6,14 +6,11 @@ const load = (req, res) => {
     if (!user) {
       res.status(404).json({ error: 'User not found' });
     } else {
-      console.log(user)
       req.user = user;
       res.status(200).json(req.user);
     }
   }).catch((e) => {
-
     res.status(500).json({ error: e.message });
-
   });
 
 };

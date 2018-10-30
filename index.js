@@ -8,9 +8,5 @@ app.listen(port, () => {
   console.log(`The server is running at localhost: ${port}`);
 });
 
-let link = url.format({
-  path:'test/fo',
-  request:{username:'test'}
-})
-console.log(link)
+
 export default app

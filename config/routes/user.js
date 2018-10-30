@@ -8,13 +8,15 @@ import validate from './validation/validation'
 
 const router = express.Router();
 
+
 router.route('/')
   .get(Auth, userCtrl.load)
   .post(userCtrl.create);
-
+router.route('/list')
+  .get(Auth, userCtrl.list);
 router.route('/:userId')
-  .put(Auth,userCtrl.update)
-  .delete(Auth,userCtrl.remove);
+  .put(Auth, userCtrl.update)
+  .delete(Auth, userCtrl.remove);
 
 /** Load user when API */
 //router.param('userId',Auth, userCtrl.load);
